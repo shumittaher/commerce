@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>List Your Item</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input class="form-control" autofocus type="text" name="object_name" placeholder="Title">
+        </div>
+  
+        <input class="btn btn-primary" type="submit" value="Add Listing">
+    </form>
+
+{% endblock %}
