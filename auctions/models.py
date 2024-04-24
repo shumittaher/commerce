@@ -12,4 +12,4 @@ class Listings(models.Model):
     object_name = models.CharField(max_length=64)
     object_price = models.DecimalField(decimal_places=2, max_digits=8)
     object_description = models.TextField
-    object_picture = models.FileField(upload_to="uploads/")
+    picture_URL = models.URLField
