@@ -3,5 +3,14 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    {% if listings %}
+        {{listings}}
+
+    {% else %}
+    
+        <h6>No Listings Yet</h6>
+    
+    {% endif %}
+
+    
 {% endblock %}
