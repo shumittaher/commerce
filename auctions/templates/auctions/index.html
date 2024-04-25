@@ -4,8 +4,20 @@
     <h2>Active Listings</h2>
 
     {% if listings %}
-        {{listings}}
 
+
+        {% for listing in listings %}
+
+                <img src="{{listing.picture_URL}}">
+      
+                {{listing.object_name}}
+         
+                {{listing.object_price}}
+
+                {{listing.object_description}}
+
+        {% endfor %}
+        
     {% else %}
     
         <h6>No Listings Yet</h6>

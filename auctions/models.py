@@ -13,3 +13,6 @@ class Listings(models.Model):
     object_price = models.DecimalField(decimal_places=2, max_digits=8)
     object_description = models.TextField(blank=True)
     picture_URL = models.URLField()
+    
+    def __str__(self):
+        return f"{self.object_name}"
