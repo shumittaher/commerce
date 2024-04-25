@@ -3,6 +3,7 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from .forms import NewListingForm
 
 from .models import User, Listings
 
@@ -72,14 +73,19 @@ def create_listing(request):
 
     if request.method == "POST":
 
-        object_name = request.POST["object_name"]
-        object_price = request.POST["object_price"]
-        object_description = request.POST["object_description"]
-        picture_URL = request.POST["picture_URL"]
+        listing = NewListingForm(request.POST)
 
-        listing = Listings(object_name = object_name, object_price = object_price, object_description = object_description, picture_URL = picture_URL)
+        # object_name = request.POST["object_name"]
+        # object_price = request.POST["object_price"]
+        # object_description = request.POST["object_description"]
+        # picture_URL = request.POST["picture_URL"]
+
+        # listing = Listings(object_name = object_name, object_price = object_price, object_description = object_description, picture_URL = picture_URL)
         listing.save()
     
         return HttpResponseRedirect(reverse("index"))
 
-    return render(request, "auctions/create_listing.html")
+    return render(request, "auctions/create_listing.html", {
+        'form': NewListingForm()
+    })
+
