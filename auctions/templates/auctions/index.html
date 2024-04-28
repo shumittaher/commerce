@@ -1,6 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+
     <h2>Active Listings</h2>
 
     {% if listings %}
@@ -21,21 +22,25 @@
                 
             </div>
             
-            <div class="p-2" style="width: 500px;">
+            <div class="p-2 h-auto d-flex flex-column justify-content-between" style="width: 500px;">
+                
+                <div>
 
-                <h1>
-                    {{listing.object_name}}
-                </h1>              
-               
-                <p> 
-                    <span style="font-weight: bold;">
-                        Description: 
-                    </span>
-                    {{listing.object_description}}
-                </p>
+                    <h1>
+                        {{listing.object_name}}
+                    </h1>              
+                    
+                    <p> 
+                        <span style="font-weight: bold;">
+                            Description: 
+                        </span>
+                        {{listing.object_description}}
+                    </p>
+                    
+                </div>
 
-                <h4>
-                    Asking price: ${{listing.object_price}}
+                <h4 class="">
+                    Current Price: {{listing.object_price}}
                 </h4>
                 
             </div>
