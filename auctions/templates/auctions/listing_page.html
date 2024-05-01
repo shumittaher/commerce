@@ -1,0 +1,56 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+{% if error_message %}
+
+<h1 style="text-align: center;">
+    {{error_message}}
+</h1>
+
+{% else %}
+
+    <h2>Item Page</h2>
+
+        <div class="my-5 d-inline-flex mb-3 border rounded shadow">
+
+            <div class="p-2">
+
+                <img style="
+                object-fit: cover; 
+                width: 300px; 
+                height: 250px;" 
+                class="rounded" 
+                src="{{item.picture_URL}}">
+                
+            </div>
+            
+            <div class="p-2 h-auto d-flex flex-column justify-content-between" style="width: 500px;">
+                
+                <div>
+
+                    <h1>
+                        {{item.object_name}}
+                    </h1>              
+                    
+                    <p> 
+                        <span style="font-weight: bold;">
+                            Description: 
+                        </span>
+                        {{item.object_description}}
+                    </p>
+                    
+                </div>
+
+                <h4 class="">
+                    Current Price: {{item.object_price}}
+                </h4>
+                
+            </div>
+        </div>
+
+        {{user}}
+
+{% endif %}
+            
+{% endblock %}

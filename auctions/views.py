@@ -4,7 +4,6 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .forms import NewListingForm
-
 from .models import User, Listings
 
 
@@ -83,3 +82,18 @@ def create_listing(request):
         'form': NewListingForm()
     })
 
+
+def show_item(request, id):
+
+    try:
+        listing  = Listings.objects.get(object_id = id)
+
+    except Listings.DoesNotExist:
+            return render(request, "auctions/listing_page.html", {
+        'error_message': 'Listing not found'
+    })       
+
+    return render(request, "auctions/listing_page.html", {
+        'item': listing,
+        'user': request.user.phone_number
+    })
