@@ -85,6 +85,9 @@ def create_listing(request):
 
 def show_item(request, id):
 
+    if not (request.user.is_authenticated):
+        return HttpResponseRedirect(reverse("login"))
+    
     try:
         listing  = Listings.objects.get(pk = id)
 
