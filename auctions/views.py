@@ -119,3 +119,20 @@ def add_to_watchlist(request):
         return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
     else:
         return HttpResponseRedirect(reverse("index"))
+    
+def remove_from_watchlist(request):
+
+    if request.method == 'POST':
+
+        object_id = request.POST["object_id"]
+        user_id = request.POST["user_id"]
+
+        user = get_object_or_404(User, pk=user_id)
+        Watchlisted_item = Listings.objects.get(pk=object_id)
+
+        user.watchlisted.remove(Watchlisted_item)
+        user.save()
+
+        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
+    else:
+        return HttpResponseRedirect(reverse("index"))
