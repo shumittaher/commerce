@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm
 from .models import User, Listings
@@ -86,14 +86,36 @@ def create_listing(request):
 def show_item(request, id):
 
     try:
-        listing  = Listings.objects.get(object_id = id)
+        listing  = Listings.objects.get(pk = id)
 
     except Listings.DoesNotExist:
             return render(request, "auctions/listing_page.html", {
         'error_message': 'Listing not found'
     })       
 
+    try:
+        watchlisted_item = request.user.watchlisted.get(pk = id)
+    except Listings.DoesNotExist:
+        watchlisted_item = None
+
     return render(request, "auctions/listing_page.html", {
         'item': listing,
-        'user': request.user.phone_number
+        'watch_listed': watchlisted_item
     })
+
+def add_to_watchlist(request):
+
+    if request.method == 'POST':
+
+        object_id = request.POST["object_id"]
+        user_id = request.POST["user_id"]
+
+        user = get_object_or_404(User, pk=user_id)
+        Watchlisted_item = Listings.objects.get(pk=object_id)
+
+        user.watchlisted.add(Watchlisted_item)
+        user.save()
+
+        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
+    else:
+        return HttpResponseRedirect(reverse("index"))
