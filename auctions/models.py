@@ -22,3 +22,8 @@ class Bids(models.Model):
     object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
     current_bid= models.DecimalField(decimal_places=2, max_digits=8)
     bidder_name = models.CharField(max_length=64)
+
+class Comments(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
+    comment_text = models.TextField()
