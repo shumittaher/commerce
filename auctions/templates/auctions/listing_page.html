@@ -42,8 +42,6 @@
 
                     {% if watch_listed %}
 
-                        
-
                         <form action="{% url 'remove_from_watchlist' %}" method="post">
                             {% csrf_token %}
                             <input hidden name="object_id" value="{{item.object_id}}">
@@ -71,7 +69,7 @@
                 </div>
 
                 <h4 class="">
-                    Current Price: {{item.object_price}}
+                    Current Price: {{current_bid}}
                 </h4>
                 
             </div>

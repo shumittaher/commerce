@@ -11,12 +11,6 @@ class Listings(models.Model):
     def __str__(self):
         return f"{self.object_name}"
     
-class Bids(models.Model):
-    bid_id = models.AutoField(primary_key=True)
-    object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
-    current_bid= models.DecimalField(decimal_places=2, max_digits=8)
-    bidder_name = models.CharField(max_length=64)
-
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key=True)
     object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
@@ -25,3 +19,9 @@ class Comments(models.Model):
 class User(AbstractUser):
     phone_number = models.CharField(max_length = 11)
     watchlisted = models.ManyToManyField(Listings)
+
+class Bids(models.Model):
+    bid_id = models.AutoField(primary_key=True)
+    object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
+    bid_amount= models.DecimalField(decimal_places=2, max_digits=8)
+    bidder_id = models.ForeignKey(User, on_delete=models.CASCADE)

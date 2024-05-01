@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm
-from .models import User, Listings
+from .models import User, Listings, Bids
 
 
 def index(request):
@@ -101,9 +101,17 @@ def show_item(request, id):
     except Listings.DoesNotExist:
         watchlisted_item = None
 
+    highest_bid_price = Bids.objects.order_by('-bid_amount').first()
+
+    if not highest_bid_price:
+        current_price = listing.object_price
+    else:
+        current_price = highest_bid_price
+
     return render(request, "auctions/listing_page.html", {
         'item': listing,
-        'watch_listed': watchlisted_item
+        'watch_listed': watchlisted_item,
+        'current_bid': current_price 
     })
 
 def add_to_watchlist(request):
