@@ -1,6 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
+<div class="container">
 
 {% if error_message %}
 
@@ -10,9 +11,9 @@
 
 {% else %}
 
-    <h2 class="mb-5">Listed Items</h2>
+    <h2 class="mb-5 text-center">Listed Items</h2>
 
-    <div class="border rounded shadow container">
+    <div class="border rounded shadow">
         <div class="d-flex">
 
             <div class="p-2">
@@ -84,7 +85,7 @@
 
                 {% csrf_token %}
 
-                <input class="form-control mb-2 text-center" placeholder="Bid amount" name="bid_amount" value="{{ current_bid }}" required onchange="checkBidAmount(this)">
+                <input class="form-control mb-2 text-center" placeholder="Bid amount" name="bid_amount" required onchange="checkBidAmount(this)">
 
                 <input hidden name="object_id" value="{{item.object_id}}">
                 <input hidden name="user_id" value="{{user.id}}">
@@ -104,6 +105,8 @@
 
 {% endif %}
 
+</div>
+
 <script>
 
     function checkBidAmount(inputField) {
@@ -116,6 +119,10 @@
             inputField.value = ""; // Optional: Clear the input field on error
         }
     }
+
+    const bid_amount_field = document.querySelector('input[name="bid_amount"]')
+    bid_amount_field.value = `{{current_bid}}` * 1.1
+
 
 </script>
             
