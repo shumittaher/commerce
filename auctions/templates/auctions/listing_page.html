@@ -10,9 +10,10 @@
 
 {% else %}
 
-    <h2>Item Page</h2>
+    <h2 class="mb-5">Listed Items</h2>
 
-        <div class="my-5 d-inline-flex mb-3 border rounded shadow">
+    <div class="border rounded shadow container">
+        <div class="d-flex">
 
             <div class="p-2">
 
@@ -25,7 +26,7 @@
                 
             </div>
             
-            <div class="p-2 h-auto d-flex flex-column justify-content-between" style="width: 500px;">
+            <div class="p-2 h-auto d-flex flex-column justify-content-between">
                 
                 <div>
 
@@ -69,12 +70,34 @@
                 </div>
 
                 <h4 class="">
-                    Current Price: {{current_bid}}
+                    Current Bid: {{current_bid}}
                 </h4>
                 
             </div>
         </div>
+<hr>
+            
+        <div class="text-center mb-2 mx-auto" style="width: 200px;">
 
+            
+            <form action="place_bid" method="post">
+
+                <input class="form-control mb-2" placeholder="Bid amount" name="bid-amount" required>
+
+                <input hidden name="object_id" value="{{item.object_id}}">
+                <input hidden name="user_id" value="{{user.id}}">
+                
+                <button type="submit" class="btn btn-primary">
+
+                    Bid Now
+                
+                </button>
+
+            </form>
+
+        </div>
+            
+        </div>
         
 
 {% endif %}
