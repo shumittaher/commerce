@@ -80,9 +80,11 @@
         <div class="text-center mb-2 mx-auto" style="width: 200px;">
 
             
-            <form action="place_bid" method="post">
+            <form action="{% url 'place_bid' %}" method="post" data-current-bid="{{ current_bid }}">
 
-                <input class="form-control mb-2" placeholder="Bid amount" name="bid_amount" required>
+                {% csrf_token %}
+
+                <input class="form-control mb-2 text-center" placeholder="Bid amount" name="bid_amount" value="{{ current_bid }}" required onchange="checkBidAmount(this)">
 
                 <input hidden name="object_id" value="{{item.object_id}}">
                 <input hidden name="user_id" value="{{user.id}}">
@@ -101,5 +103,20 @@
         
 
 {% endif %}
+
+<script>
+
+    function checkBidAmount(inputField) {
+        const form = inputField.form;
+        const currentBid = parseFloat(form.dataset.currentBid);
+        const enteredBid = parseFloat(inputField.value);
+
+        if (enteredBid <= currentBid) {
+            alert("Bid amount must be higher than the current bid of " + currentBid);
+            inputField.value = ""; // Optional: Clear the input field on error
+        }
+    }
+
+</script>
             
 {% endblock %}

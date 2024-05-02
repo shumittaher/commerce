@@ -147,3 +147,15 @@ def remove_from_watchlist(request):
         return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
     else:
         return HttpResponseRedirect(reverse("index"))
+    
+
+def place_bid(request):
+
+    object_id = request.POST["object_id"]
+    user_id = request.POST["user_id"]
+    bid_amount = request.POST["bid_amount"]
+    
+    if request.method == 'POST':
+        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
+    else:
+        return HttpResponseRedirect(reverse("index"))
