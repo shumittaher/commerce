@@ -157,3 +157,5 @@ def place_bid(request):
 
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
+def close_bid(request):
+    return

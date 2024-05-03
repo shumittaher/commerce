@@ -76,11 +76,11 @@
             {% if owner_check %}
 
             <div class="m-2">
-                
-                <button class="btn btn-primary">
-                    Close Bidding
-                </button>
-
+                <form action="{% url 'close_bid' %}" method="post">
+                    <button type="submit" class="btn btn-primary">
+                         Close Bidding
+                    </button>
+                </form>   
             </div>
 
             {% endif %}
