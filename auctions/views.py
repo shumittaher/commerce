@@ -15,7 +15,6 @@ def index(request):
         "listings" : listings
     })
 
-
 def login_view(request):
     if request.method == "POST":
 
@@ -35,11 +34,9 @@ def login_view(request):
     else:
         return render(request, "auctions/login.html")
 
-
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse("index"))
-
 
 def register(request):
     if request.method == "POST":
@@ -68,6 +65,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+@login_required
 def create_listing(request):
 
     if request.method == "POST":
@@ -81,7 +79,6 @@ def create_listing(request):
     return render(request, "auctions/create_listing.html", {
         'form': NewListingForm()
     })
-
 
 @login_required
 def show_item(request, id):
@@ -126,7 +123,6 @@ def add_to_watchlist(request):
 
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
-    
 @check_post_method
 def remove_from_watchlist(request):
 
@@ -141,8 +137,7 @@ def remove_from_watchlist(request):
 
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
-    
-
+@login_required
 def place_bid(request):
 
     object_id = request.POST["object_id"]
