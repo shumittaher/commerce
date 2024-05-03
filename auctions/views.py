@@ -88,7 +88,7 @@ def show_item(request, id):
     listing  = fetch_listing_by_id(id)
 
     if not listing: 
-        return render(request, "auctions/listing_page.html", {
+        return render(request, "auctions/error_page.html", {
         'error_message': 'Listing not found'
     })
 
@@ -141,10 +141,14 @@ def place_bid(request):
     object_id = user_items["object_id"]
     item = fetch_listing_by_id(object_id)
     
-    bid_amount = request.POST["bid_amount"]
+    bid_amount = float(request.POST["bid_amount"])
+
+    if bid_amount <= calculate_current_highest_bid(object_id):
+        return render(request, "auctions/error_page.html", {
+            'error_message': 'Bid amount lower than current bid, try again'
+        })
 
     new_bid = Bids(object_id = item, bid_amount = bid_amount, bidder_id = user)
-
     new_bid.save()
 
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
