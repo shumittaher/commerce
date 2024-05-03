@@ -8,18 +8,20 @@
     <div class="border rounded shadow">
         <div class="d-flex">
 
-            <div class="p-2">
+            <div class="p-2 w-50">
 
                 <img style="
-                object-fit: cover; 
-                width: 300px; 
-                height: 250px;" 
+                object-fit: cover;
+                width: 100%;
+                height: 100%; 
+                " 
+                
                 class="rounded" 
                 src="{{item.picture_URL}}">
                 
             </div>
             
-            <div class="p-2 h-auto d-flex flex-column justify-content-between">
+            <div class="p-2 h-auto d-flex flex-column justify-content-between flex-fill">
                 
                 <div>
 
@@ -43,7 +45,7 @@
 
                             <H6 style="color: gray">Watchlisted</H6>
 
-                            <button type="submit" value="remove" name="action"> 
+                            <button type="submit" value="remove" name="action" class="btn btn-info"> 
                                 Remove
                             </button>
                         </form>
@@ -55,8 +57,8 @@
 
                             {{object_user}}
 
-                            <button type="submit" value="add" name="action">
-                                <h6>Watchlist This!</h6>
+                            <button type="submit" value="add" class="btn btn-info" name="action">
+                                Add to Watchlist
                             </button>
                         </form>
                     
@@ -69,6 +71,19 @@
                 </h4>
                 
             </div>
+            
+            
+            {% if owner_check %}
+
+            <div class="m-2">
+                
+                <button class="btn btn-primary">
+                    Close Bidding
+                </button>
+
+            </div>
+
+            {% endif %}
         </div>
 <hr>
             

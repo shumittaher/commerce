@@ -57,6 +57,14 @@ def watchlisted_check(user, object_id):
     except Listings.DoesNotExist: 
         return False
     
+def list_opener_check(user_id, object_id):
+
+    item = fetch_listing_by_id(object_id)
+    user_of_listing = item.object_lister
+    if (user_of_listing.id) == user_id:
+        return True
+    return False
+    
 def calculate_current_highest_bid(id):
     highest_bid_item = Bids.objects.filter(object_id=id).order_by('-bid_amount').first()
 

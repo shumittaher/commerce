@@ -11,7 +11,7 @@ class NewListingForm(ModelForm):
             'object_name': forms.TextInput(attrs={'class':"form-control form-control-lg", 'placeholder': 'Enter Item Title'}),
             'object_price': forms.NumberInput(attrs={'class':"form-control", 'placeholder':"Starting Price", 'step':"0.01"}),
             'object_description': forms.Textarea(attrs={'class':"form-control", 'placeholder':"Description", 'rows': "7"}),
-            'picture_URL': forms.URLInput(attrs={'class':"form-control", 'placeholder':"Picture URL"})
+            'picture_URL': forms.URLInput(attrs={'class':"form-control", 'placeholder':"Picture URL"}),
         }
 
         labels = {

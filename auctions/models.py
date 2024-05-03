@@ -7,6 +7,7 @@ class Listings(models.Model):
     object_price = models.DecimalField(decimal_places=2, max_digits=8)
     object_description = models.TextField(blank=True)
     picture_URL = models.URLField()
+    object_lister = models.ForeignKey("User", on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.object_name}"
