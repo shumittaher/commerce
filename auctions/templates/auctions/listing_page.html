@@ -49,10 +49,10 @@
     
                             {{object_user}}
 
-                            <input hidden value="remove" name="action">
+                            <H6 style="color: gray">Watchlisted</H6>
 
-                            <button type="submit">
-                                <H6 style="color: gray">Watchlisted</H6>
+                            <button type="submit" value="remove" name="action"> 
+                                Remove
                             </button>
                         </form>
 
@@ -62,9 +62,8 @@
                             {% csrf_token %}
 
                             {{object_user}}
-                            <input hidden value="add" name="action">
 
-                            <button type="submit">
+                            <button type="submit" value="add" name="action">
                                 <h6>Watchlist This!</h6>
                             </button>
                         </form>

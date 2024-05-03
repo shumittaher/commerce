@@ -23,7 +23,7 @@ class NewListingForm(ModelForm):
 
 class Item_user_combo(forms.Form):
 
-    item_id = forms.IntegerField()
-    user_id = forms.IntegerField()
+    item_id = forms.IntegerField(widget=forms.HiddenInput())
+    user_id = forms.IntegerField(widget=forms.HiddenInput())
     
 
