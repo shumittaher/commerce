@@ -86,12 +86,9 @@
             <form action="{% url 'place_bid' %}" method="post" data-current-bid="{{ current_bid }}">
 
                 {% csrf_token %}
+                {{object_user}}
 
                 <input class="form-control mb-2 text-center" placeholder="Bid amount" name="bid_amount" required onchange="checkBidAmount(this)">
-
-                <input hidden name="object_id" value="{{item.object_id}}">
-                <input hidden name="user_id" value="{{user.id}}">
-                
                 <button type="submit" class="btn btn-primary">
 
                     Bid Now

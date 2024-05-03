@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm, Item_user_combo
 from .models import User, Listings, Bids
-from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id
+from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid
 
 
 
@@ -94,22 +94,14 @@ def show_item(request, id):
 
     user = request.user
 
-    try:
-        watchlisted_item = user.watchlisted.get(pk = id)
-    except Listings.DoesNotExist:
-        watchlisted_item = None
+    watchlisted_item = watchlisted_check(user, id)
 
     object_user = Item_user_combo(initial={
         'item_id': id,
         'user_id': user.id
         })
 
-    highest_bid_price = Bids.objects.order_by('-bid_amount').first()
-
-    if not highest_bid_price:
-        current_price = listing.object_price
-    else:
-        current_price = highest_bid_price
+    current_price = calculate_current_highest_bid(id)
 
     return render(request, "auctions/listing_page.html", {
         'item': listing,
@@ -140,13 +132,20 @@ def change_watchlist(request):
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": user_items["object_id"]}))
 
 @login_required
+@check_post_method
 def place_bid(request):
 
-    object_id = request.POST["object_id"]
-    user_id = request.POST["user_id"]
-    bid_amount = request.POST["bid_amount"]
+    user_items = process_user_item_combo(request)
+    user = get_object_or_404(User, pk = user_items["user_id"])
+
+    object_id = user_items["object_id"]
+    item = fetch_listing_by_id(object_id)
     
-    if request.method == 'POST':
-        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
-    else:
-        return HttpResponseRedirect(reverse("index"))
+    bid_amount = request.POST["bid_amount"]
+
+    new_bid = Bids(object_id = item, bid_amount = bid_amount, bidder_id = user)
+
+    new_bid.save()
+
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
+

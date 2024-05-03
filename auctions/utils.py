@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import Item_user_combo
-from .models import Listings
+from .models import Listings, Bids
 from django.shortcuts import render
 
 
@@ -46,3 +46,24 @@ def fetch_listing_by_id(id):
     except Listings.DoesNotExist:
         return False
     return listing
+
+def watchlisted_check(user, object_id):
+
+    try:
+        user.watchlisted.get(pk = object_id)
+        return True
+    except Listings.DoesNotExist: 
+        return False
+    
+def calculate_current_highest_bid(id):
+    highest_bid_item = Bids.objects.filter(object_id=id).order_by('-bid_amount').first()
+
+    if not highest_bid_item:
+        current_price = fetch_listing_by_id(id).object_price
+    else:
+        current_price = highest_bid_item.bid_amount
+
+    return current_price
+
+
+
