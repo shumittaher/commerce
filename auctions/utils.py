@@ -1,6 +1,9 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import Item_user_combo
+from .models import Listings
+from django.shortcuts import render
+
 
 
 def check_post_method(view_func):
@@ -34,5 +37,12 @@ def process_user_item_combo(request):
         return {'object_id' : object_id, 'user_id': user_id}
     
     else: 
-        return HttpResponseRedirect(reverse("index"))
+        return False
 
+def fetch_listing_by_id(id):
+        
+    try:
+        listing  = Listings.objects.get(pk = id)
+    except Listings.DoesNotExist:
+        return False
+    return listing

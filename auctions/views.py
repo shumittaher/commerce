@@ -5,7 +5,9 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm, Item_user_combo
 from .models import User, Listings, Bids
-from .utils import check_post_method, login_required, process_user_item_combo
+from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id
+
+
 
 def index(request):
 
@@ -83,11 +85,10 @@ def create_listing(request):
 @login_required
 def show_item(request, id):
     
-    try:
-        listing  = Listings.objects.get(pk = id)
+    listing  = fetch_listing_by_id(id)
 
-    except Listings.DoesNotExist:
-            return render(request, "auctions/listing_page.html", {
+    if not listing: 
+        return render(request, "auctions/listing_page.html", {
         'error_message': 'Listing not found'
     })
 
@@ -121,6 +122,10 @@ def show_item(request, id):
 def change_watchlist(request):
 
     user_items = process_user_item_combo(request)
+
+    if not user_items:
+        return HttpResponseRedirect(reverse("index"))
+
     action = request.POST["action"]
 
     user = get_object_or_404(User, pk = user_items["user_id"])
