@@ -29,13 +29,15 @@ def login_required(view_func):
     return wrapper
 
 def process_user_item_combo(request):
+
     user_item = Item_user_combo(request.POST)
 
     if user_item.is_valid():
         object_id = user_item.cleaned_data["item_id"]
         user_id = user_item.cleaned_data["user_id"]
+        if request.user.id != user_id:
+            return False
         return {'object_id' : object_id, 'user_id': user_id}
-    
     else: 
         return False
 

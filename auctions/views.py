@@ -8,7 +8,6 @@ from .models import User, Listings, Bids
 from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid
 
 
-
 def index(request):
 
     listings = Listings.objects.all()
