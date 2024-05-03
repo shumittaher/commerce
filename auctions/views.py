@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm
 from .models import User, Listings, Bids
-from .utils import check_post_method
+from .utils import check_post_method, login_required
 
 def index(request):
 
@@ -83,10 +83,8 @@ def create_listing(request):
     })
 
 
+@login_required
 def show_item(request, id):
-
-    if not (request.user.is_authenticated):
-        return HttpResponseRedirect(reverse("login"))
     
     try:
         listing  = Listings.objects.get(pk = id)
