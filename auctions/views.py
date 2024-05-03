@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm
 from .models import User, Listings, Bids
-
+from .utils import check_post_method
 
 def index(request):
 
@@ -114,39 +114,35 @@ def show_item(request, id):
         'current_bid': current_price 
     })
 
+@check_post_method
 def add_to_watchlist(request):
 
-    if request.method == 'POST':
+    object_id = request.POST["object_id"]
+    user_id = request.POST["user_id"]
 
-        object_id = request.POST["object_id"]
-        user_id = request.POST["user_id"]
+    user = get_object_or_404(User, pk=user_id)
+    Watchlisted_item = Listings.objects.get(pk=object_id)
 
-        user = get_object_or_404(User, pk=user_id)
-        Watchlisted_item = Listings.objects.get(pk=object_id)
+    user.watchlisted.add(Watchlisted_item)
+    user.save()
 
-        user.watchlisted.add(Watchlisted_item)
-        user.save()
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
-        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
-    else:
-        return HttpResponseRedirect(reverse("index"))
     
+@check_post_method
 def remove_from_watchlist(request):
 
-    if request.method == 'POST':
+    object_id = request.POST["object_id"]
+    user_id = request.POST["user_id"]
 
-        object_id = request.POST["object_id"]
-        user_id = request.POST["user_id"]
+    user = get_object_or_404(User, pk=user_id)
+    Watchlisted_item = Listings.objects.get(pk=object_id)
 
-        user = get_object_or_404(User, pk=user_id)
-        Watchlisted_item = Listings.objects.get(pk=object_id)
+    user.watchlisted.remove(Watchlisted_item)
+    user.save()
 
-        user.watchlisted.remove(Watchlisted_item)
-        user.save()
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
-        return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
-    else:
-        return HttpResponseRedirect(reverse("index"))
     
 
 def place_bid(request):
