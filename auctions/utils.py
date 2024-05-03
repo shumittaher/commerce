@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from .forms import Item_user_combo
 
 
 def check_post_method(view_func):
@@ -23,3 +24,15 @@ def login_required(view_func):
             return view_func(request, *args, **kwargs)
 
     return wrapper
+
+def process_user_item_combo(request):
+    user_item = Item_user_combo(request.POST)
+
+    if user_item.is_valid():
+        object_id = user_item.cleaned_data["item_id"]
+        user_id = user_item.cleaned_data["user_id"]
+        return {'object_id' : object_id, 'user_id': user_id}
+    
+    else: 
+        return HttpResponseRedirect(reverse("index"))
+

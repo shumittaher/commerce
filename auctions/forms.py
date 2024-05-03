@@ -21,3 +21,9 @@ class NewListingForm(ModelForm):
             'picture_URL': 'Link to Picture'
         }
 
+class Item_user_combo(forms.Form):
+
+    item_id = forms.IntegerField()
+    user_id = forms.IntegerField()
+    
+

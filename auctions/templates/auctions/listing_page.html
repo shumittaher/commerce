@@ -44,11 +44,13 @@
 
                     {% if watch_listed %}
 
-                        <form action="{% url 'remove_from_watchlist' %}" method="post">
+                        <form action="{% url 'change_watchlist' %}" method="post">
                             {% csrf_token %}
-                            <input hidden name="object_id" value="{{item.object_id}}">
-                            <input hidden name="user_id" value="{{user.id}}">
-                            
+    
+                            {{object_user}}
+
+                            <input hidden value="remove" name="action">
+
                             <button type="submit">
                                 <H6 style="color: gray">Watchlisted</H6>
                             </button>
@@ -56,11 +58,12 @@
 
                     {% else %}
                 
-                        <form action="{% url 'add_to_watchlist' %}" method="post">
+                        <form action="{% url 'change_watchlist' %}" method="post">
                             {% csrf_token %}
-                            <input hidden name="object_id" value="{{item.object_id}}">
-                            <input hidden name="user_id" value="{{user.id}}">
-                            
+
+                            {{object_user}}
+                            <input hidden value="add" name="action">
+
                             <button type="submit">
                                 <h6>Watchlist This!</h6>
                             </button>

@@ -3,9 +3,9 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from .forms import NewListingForm
+from .forms import NewListingForm, Item_user_combo
 from .models import User, Listings, Bids
-from .utils import check_post_method, login_required
+from .utils import check_post_method, login_required, process_user_item_combo
 
 def index(request):
 
@@ -89,12 +89,19 @@ def show_item(request, id):
     except Listings.DoesNotExist:
             return render(request, "auctions/listing_page.html", {
         'error_message': 'Listing not found'
-    })       
+    })
+
+    user = request.user
 
     try:
-        watchlisted_item = request.user.watchlisted.get(pk = id)
+        watchlisted_item = user.watchlisted.get(pk = id)
     except Listings.DoesNotExist:
         watchlisted_item = None
+
+    object_user = Item_user_combo(initial={
+        'item_id': id,
+        'user_id': user.id
+        })
 
     highest_bid_price = Bids.objects.order_by('-bid_amount').first()
 
@@ -106,36 +113,26 @@ def show_item(request, id):
     return render(request, "auctions/listing_page.html", {
         'item': listing,
         'watch_listed': watchlisted_item,
-        'current_bid': current_price 
+        'current_bid': current_price,
+        'object_user': object_user
     })
 
 @check_post_method
-def add_to_watchlist(request):
+def change_watchlist(request):
 
-    object_id = request.POST["object_id"]
-    user_id = request.POST["user_id"]
+    user_items = process_user_item_combo(request)
+    action = request.POST["action"]
 
-    user = get_object_or_404(User, pk=user_id)
-    Watchlisted_item = Listings.objects.get(pk=object_id)
+    user = get_object_or_404(User, pk = user_items["user_id"])
+    Watchlisted_item = Listings.objects.get(pk = user_items["object_id"])
 
-    user.watchlisted.add(Watchlisted_item)
+    if action == "add":
+        user.watchlisted.add(Watchlisted_item)
+    if action == "remove":
+        user.watchlisted.remove(Watchlisted_item)
     user.save()
 
-    return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
-
-@check_post_method
-def remove_from_watchlist(request):
-
-    object_id = request.POST["object_id"]
-    user_id = request.POST["user_id"]
-
-    user = get_object_or_404(User, pk=user_id)
-    Watchlisted_item = Listings.objects.get(pk=object_id)
-
-    user.watchlisted.remove(Watchlisted_item)
-    user.save()
-
-    return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": user_items["object_id"]}))
 
 @login_required
 def place_bid(request):
