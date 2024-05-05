@@ -120,6 +120,8 @@ def show_item(request, id):
 
     comment_form = CommentsForm().render("auctions/form_snippets/form.html")
 
+    comments_table = Comments.objects.all().filter(object_id = id)
+
     return render(request, "auctions/listing_page.html", {
         'item': listing,
         'watch_listed': watchlisted_item,
@@ -127,7 +129,8 @@ def show_item(request, id):
         'object_user': object_user,
         'owner_check': owner_check,
         'winner_check': winner_check,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'comments_table': comments_table
     })
 
 @check_post_method

@@ -139,6 +139,21 @@
 </div>
 
 <div class="container">
+    <div class="border p-3" style="background-color: whitesmoke;">
+    <h3 class="mb-3">
+        Our Users Comments
+    </h3>
+        {% for comment in comments_table %}
+            <div class="border p-3" style="background-color: white;">
+                <h6 class="mb-3">
+                    {{comment.commenter_id}}
+                </h6>
+                <p>
+                    {{comment.comment_text}}
+                </p>
+            </div>
+        {% endfor %}
+    </div>
 
     <!-- add comment box -->
     <div class="border p-3">
