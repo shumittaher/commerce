@@ -76,9 +76,11 @@
             {% if owner_check %}
 
             <div class="m-2">
-                <form action="{% url 'close_bid' %}" method="post">
+                <form action="{% url 'close_listing' %}" method="post">
+                    {% csrf_token %}
+
                     <button type="submit" class="btn btn-primary">
-                         Close Bidding
+                         Close Auction
                     </button>
                 </form>   
             </div>

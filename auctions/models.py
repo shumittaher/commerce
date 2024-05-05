@@ -8,6 +8,7 @@ class Listings(models.Model):
     object_description = models.TextField(blank=True)
     picture_URL = models.URLField()
     object_lister = models.ForeignKey("User", on_delete=models.CASCADE)
+    listing_open = models.BooleanField(default=True)
     
     def __str__(self):
         return f"{self.object_name}"
