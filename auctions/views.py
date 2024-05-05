@@ -10,11 +10,22 @@ from .utils import check_post_method, login_required, process_user_item_combo, f
 
 def index(request):
 
-    listings = Listings.objects.all()
+    active_listings = Listings.objects.all().filter(listing_open = True)
 
     return render(request, "auctions/index.html" , {
-        "listings" : listings
+        "listings" : active_listings,
+        "status": "Active"
     })
+
+def closed_listings(request):
+
+    closed_listings = Listings.objects.all().filter(listing_open = False)
+
+    return render(request, "auctions/index.html" , {
+        "listings" : closed_listings,
+        "status": "Closed"
+    })
+
 
 def login_view(request):
     if request.method == "POST":

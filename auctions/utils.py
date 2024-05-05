@@ -74,6 +74,3 @@ def calculate_current_highest_bid(id):
         current_price = highest_bid_item.bid_amount
 
     return current_price
-
-
-
