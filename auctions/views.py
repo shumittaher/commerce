@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm, Item_user_combo, CommentsForm
-from .models import User, Listings, Bids
+from .models import User, Listings, Bids, Comments
 from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid, list_opener_check, check_winner
 
 
@@ -192,4 +192,22 @@ def close_listing(request):
 
     listing.save()
 
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": id}))
+
+@check_post_method
+def post_comment(request):
+
+    user_items = process_user_item_combo(request)
+    
+    id = user_items["object_id"]
+    user_id = user_items["user_id"]
+
+    comment_for_posting = Comments(
+        object_id = fetch_listing_by_id(id),
+        comment_text = request.POST["comment_text"],
+        commenter_id = get_object_or_404(User, pk = user_id)
+    )
+
+    comment_for_posting.save()
+    
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": id}))
