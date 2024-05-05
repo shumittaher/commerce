@@ -74,3 +74,25 @@ def calculate_current_highest_bid(id):
         current_price = highest_bid_item.bid_amount
 
     return current_price
+
+def find_winner_by_id(item_id):
+
+    item = fetch_listing_by_id(item_id)
+
+    if item.listing_open:
+        return False
+
+    highest_bid_item = Bids.objects.filter(object_id=item_id).order_by('-bid_amount').first()
+
+    if not highest_bid_item:
+        return item.object_lister
+    else:
+        return highest_bid_item.bidder_id
+
+def check_winner(user_id, item_id):
+
+    item_winner = fetch_listing_by_id(item_id)
+    if item_winner:
+        if item_winner.object_lister.id == user_id:
+            return True
+    return False

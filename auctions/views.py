@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm, Item_user_combo
 from .models import User, Listings, Bids
-from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid, list_opener_check
+from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid, list_opener_check, check_winner
 
 
 def index(request):
@@ -116,13 +116,15 @@ def show_item(request, id):
     current_price = calculate_current_highest_bid(id)
 
     owner_check = list_opener_check(user.id, id)
+    winner_check = check_winner(user.id, id)
 
     return render(request, "auctions/listing_page.html", {
         'item': listing,
         'watch_listed': watchlisted_item,
         'current_bid': current_price,
         'object_user': object_user,
-        'owner_check': owner_check
+        'owner_check': owner_check,
+        'winner_check': winner_check
     })
 
 @check_post_method
@@ -168,9 +170,15 @@ def place_bid(request):
 
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": object_id}))
 
+@check_post_method
 def close_listing(request):
 
+    user_items = process_user_item_combo(request)
+    id = user_items["object_id"]
 
+    listing = fetch_listing_by_id(id)
+    listing.listing_open = False
 
+    listing.save()
 
-    return
+    return HttpResponseRedirect(reverse("show_item", kwargs={"id": id}))

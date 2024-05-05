@@ -3,9 +3,14 @@
 {% block body %}
 <div class="container">
 
-    <h2 class="mb-5 text-center">Listed Items</h2>
-
     <div class="border rounded shadow">
+        {% if winner_check %}
+        <div class="text-center mt-1" style="color: Blue;">
+            <h4 class="">Congratulations!</h4>
+            <h6>You are the winner</h6>
+        </div>
+        <hr class="m-0">
+        {% endif %}
         <div class="d-flex">
 
             <div class="p-2 w-50">
@@ -36,6 +41,8 @@
                         {{item.object_description}}
                     </p>
 
+                    {% if item.listing_open %}        
+
                     {% if watch_listed %}
 
                         <form action="{% url 'change_watchlist' %}" method="post">
@@ -63,7 +70,11 @@
                         </form>
                     
                     {% endif %}
-                    
+
+
+                    {% endif %}
+
+
                 </div>
 
                 <h4 class="">
@@ -72,12 +83,14 @@
                 
             </div>
             
-            
+        {% if item.listing_open %}        
+
             {% if owner_check %}
 
             <div class="m-2">
                 <form action="{% url 'close_listing' %}" method="post">
                     {% csrf_token %}
+                    {{object_user}}
 
                     <button type="submit" class="btn btn-primary">
                          Close Auction
@@ -86,8 +99,21 @@
             </div>
 
             {% endif %}
+
+        {% else %}
+
+        <div class="m-2">
+         
+                <button disabled class="btn btn-primary">
+                      Closed
+                </button>
+
         </div>
-<hr>
+
+        {% endif %}
+
+        </div>
+<hr class="mb-2 mt-0">
             
         <div class="text-center mb-2 mx-auto" style="width: 200px;">
 
