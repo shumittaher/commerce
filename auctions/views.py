@@ -91,7 +91,7 @@ def create_listing(request):
         return HttpResponseRedirect(reverse("index"))
 
     return render(request, "auctions/create_listing.html", {
-        'form': NewListingForm()
+        'form': NewListingForm().render("auctions/form_snippets/form.html")
     })
 
 @login_required
@@ -118,7 +118,7 @@ def show_item(request, id):
     owner_check = list_opener_check(user.id, id)
     winner_check = check_winner(user.id, id)
 
-    comment_form = CommentsForm()
+    comment_form = CommentsForm().render("auctions/form_snippets/form.html")
 
     return render(request, "auctions/listing_page.html", {
         'item': listing,

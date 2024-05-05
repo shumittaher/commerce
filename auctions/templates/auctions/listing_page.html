@@ -141,13 +141,20 @@
 <div class="container">
 
     <!-- add comment box -->
-    <div>
-        <form action="" method="post">
+    <div class="border p-3">
+
+        <form action="" method="post" class="">
             
             {% csrf_token %}
 
             {{comment_form}}
 
+            <div class="text-center">
+                <button class="btn btn-info" type="submit">
+                    Add Comment
+                </button>
+            </div>
+    
         </form>                           
     </div>
 </div>
