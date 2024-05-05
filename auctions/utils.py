@@ -91,8 +91,8 @@ def find_winner_by_id(item_id):
 
 def check_winner(user_id, item_id):
 
-    item_winner = fetch_listing_by_id(item_id)
+    item_winner = find_winner_by_id(item_id)
     if item_winner:
-        if item_winner.object_lister.id == user_id:
+        if item_winner.id == user_id:
             return True
     return False

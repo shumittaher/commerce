@@ -84,14 +84,17 @@ def create_listing(request):
 
         listingform = NewListingForm(request.POST)
         if listingform.is_valid():
-
-            listingform["object_lister"] = request.user
+            listingform.cleaned_data["listing_open"] = True
             listingform.save()
 
         return HttpResponseRedirect(reverse("index"))
+    
+    inital_form = NewListingForm(initial={
+        'object_lister': get_object_or_404(User, pk = request.user.id)
+    }).render("auctions/form_snippets/form.html")
 
     return render(request, "auctions/create_listing.html", {
-        'form': NewListingForm().render("auctions/form_snippets/form.html")
+        'form': inital_form
     })
 
 @login_required
