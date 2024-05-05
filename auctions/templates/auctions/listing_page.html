@@ -138,6 +138,18 @@
         
 </div>
 
+<div class="container">
+
+    <!-- add comment box -->
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {{comment_form}}
+        </form>                           
+    </div>
+</div>
+
 <script>
 
     function checkBidAmount(inputField) {

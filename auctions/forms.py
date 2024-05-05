@@ -1,9 +1,8 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Listings
+from .models import Listings, Comments
 
 class NewListingForm(ModelForm):
-
     class Meta:
         model = Listings
         fields = ['object_name', 'object_price', 'object_description', 'picture_URL']
@@ -26,4 +25,7 @@ class Item_user_combo(forms.Form):
     item_id = forms.IntegerField(widget=forms.HiddenInput())
     user_id = forms.IntegerField(widget=forms.HiddenInput())
     
-
+class CommentsForm(ModelForm):
+    class Meta:
+        model = Comments
+        exclude = ['comment_id']

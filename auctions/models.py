@@ -12,16 +12,16 @@ class Listings(models.Model):
     
     def __str__(self):
         return f"{self.object_name}"
-    
-class Comments(models.Model):
-    comment_id = models.AutoField(primary_key=True)
-    object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
-    comment_text = models.TextField(max_length=255)
-    commenter_id = models.ForeignKey("User", on_delete=models.CASCADE)
 
 class User(AbstractUser):
     phone_number = models.CharField(max_length = 11)
     watchlisted = models.ManyToManyField(Listings)
+
+class Comments(models.Model):
+    comment_id = models.AutoField(primary_key=True)
+    object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
+    comment_text = models.TextField(max_length=255)
+    commenter_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 class Bids(models.Model):
     bid_id = models.AutoField(primary_key=True)
