@@ -16,7 +16,8 @@ class Listings(models.Model):
 class Comments(models.Model):
     comment_id = models.AutoField(primary_key=True)
     object_id = models.ForeignKey(Listings, on_delete=models.CASCADE)
-    comment_text = models.TextField()
+    comment_text = models.TextField(max_length=255)
+    commenter_id = models.ForeignKey("User", on_delete=models.CASCADE)
 
 class User(AbstractUser):
     phone_number = models.CharField(max_length = 11)
