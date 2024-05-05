@@ -28,4 +28,4 @@ class Item_user_combo(forms.Form):
 class CommentsForm(ModelForm):
     class Meta:
         model = Comments
-        exclude = ['comment_id']
+        fields= ['comment_text']
