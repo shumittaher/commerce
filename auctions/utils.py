@@ -2,8 +2,6 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from .forms import Item_user_combo
 from .models import Listings, Bids
-from django.shortcuts import render
-
 
 
 def check_post_method(view_func):

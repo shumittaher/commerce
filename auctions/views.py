@@ -85,7 +85,10 @@ def create_listing(request):
         listingform = NewListingForm(request.POST)
         if listingform.is_valid():
             listingform.cleaned_data["listing_open"] = True
-            listingform.save()
+            listingform_with_added = listingform.cleaned_data
+            listingform_with_added["object_lister"] = get_object_or_404(User, pk = request.user.id)
+            listing_form_for_save = Listings(**listingform_with_added)
+            listing_form_for_save.save()
 
         return HttpResponseRedirect(reverse("index"))
     

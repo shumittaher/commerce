@@ -1,7 +1,12 @@
 {% for field in form %}
     <div class="form-group">
 
-        {{ field }}        
+        <label for="id_{{field.name}}" class="form-label">
+            {{field.label}}
+        </label>
+
+        {{ field }}
+
         {% if field.errors %}
             <ul class="errors">
             {% for error in field.errors %}
@@ -10,4 +15,5 @@
             </ul>
         {% endif %}
     </div>
+    
 {% endfor %}
