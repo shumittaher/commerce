@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 from .forms import NewListingForm, Item_user_combo, CommentsForm
-from .models import User, Listings, Bids, Comments
+from .models import User, Listings, Bids, Comments, Categories
 from .utils import check_post_method, login_required, process_user_item_combo, fetch_listing_by_id, watchlisted_check, calculate_current_highest_bid, list_opener_check, check_winner
 
 
@@ -231,3 +231,22 @@ def post_comment(request):
     comment_for_posting.save()
     
     return HttpResponseRedirect(reverse("show_item", kwargs={"id": id}))
+
+def category_list(request):
+
+    category_list = Categories.objects.all()
+    return render(request, "auctions/category_list_page.html",{
+        'category_list': category_list
+    })
+
+
+def category(request, category):
+
+    category_type = get_object_or_404(Categories, pk = category)
+
+    items = Listings.objects.all().filter(category = category_type)
+
+    return render(request, "auctions/index.html" , {
+        "listings" : items,
+        "status": category_type.category_text
+    })

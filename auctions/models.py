@@ -19,7 +19,7 @@ class Listings(models.Model):
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     
     def __str__(self):
-        return f"{self.object_name}"
+        return f"{self.object_name} - Item No. {self.object_id}"
 
 class User(AbstractUser):
     phone_number = models.CharField(max_length = 11)

@@ -15,4 +15,6 @@ urlpatterns = [
     path("close_listing", views.close_listing, name="close_listing"),
     path("post_comment", views.post_comment, name="post_comment"),
     path("watchlisted", views.watchlisted, name="watchlisted"),
+    path("category_list", views.category_list, name="category_list"),
+    path("category/<int:category>", views.category, name="category"),
 ]

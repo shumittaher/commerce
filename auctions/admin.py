@@ -3,5 +3,15 @@ from .models import Listings, Categories, User, Comments, Bids
 
 # Register your models here.
 
-admin.site.register(Listings)
+class ListingAdmin(admin.ModelAdmin):
+    list_display = ('object_name', 'object_price', 'category', 'object_lister')
+class BidsAdmin(admin.ModelAdmin):
+    list_display = ( 'object_id', 'bid_amount', 'bidder_id')
+
+
+admin.site.register(User)
+admin.site.register(Listings, ListingAdmin)
 admin.site.register(Categories)
+admin.site.register(Bids, BidsAdmin)
+
+

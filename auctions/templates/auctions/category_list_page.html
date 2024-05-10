@@ -1,0 +1,30 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+
+
+<h3 class="mb-3">
+    Browse by Categories:
+</h3>
+
+
+<ul>
+    
+    {% for list_item in category_list %}
+
+    <li>
+
+            <a href="{% url 'category' category=list_item.category_id %}">
+                <h6>
+                    {{list_item}}
+                </h6>
+            </a>
+            
+    </li>
+
+    {% endfor %}
+
+</ul>
+
+{% endblock %}
