@@ -1,13 +1,14 @@
 from django import forms
 from django.forms import ModelForm
-from .models import Listings, Comments
+from .models import Listings, Comments, Categories
 
 class NewListingForm(ModelForm):
     class Meta:
         model = Listings
-        fields = ['object_name', 'object_price', 'object_description', 'picture_URL']
+        fields = ['object_name', 'category', 'object_price', 'object_description', 'picture_URL', ]
         widgets = {
             'object_name': forms.TextInput(attrs={'class':"form-control form-control-lg", 'placeholder': 'Enter Item Title'}),
+            'category': forms.Select(attrs={'class':"form-control", 'required': True}),
             'object_price': forms.NumberInput(attrs={'class':"form-control", 'placeholder':"Starting Price", 'step':"0.01"}),
             'object_description': forms.Textarea(attrs={'class':"form-control", 'placeholder':"Description", 'rows': "7"}),
             'picture_URL': forms.URLInput(attrs={'class':"form-control", 'placeholder':"Picture URL"}),
@@ -15,6 +16,7 @@ class NewListingForm(ModelForm):
 
         labels = {
             'object_name': 'Item Name',
+            'category': 'Category',
             'object_price': 'Starting Price',
             'object_description': 'Item Description',
             'picture_URL': 'Link to Picture',

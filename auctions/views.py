@@ -17,6 +17,17 @@ def index(request):
         "status": "Active"
     })
 
+@login_required
+def watchlisted(request):
+
+    user = get_object_or_404(User, pk = request.user.id)
+    watchlisted = user.watchlisted.all()
+
+    return render(request, "auctions/index.html" , {
+        "listings" : watchlisted,
+        "status": "Watchlisted"
+    })
+
 def closed_listings(request):
 
     closed_listings = Listings.objects.all().filter(listing_open = False)

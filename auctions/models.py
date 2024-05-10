@@ -1,6 +1,13 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+class Categories(models.Model):
+    category_id = models.AutoField(primary_key=True)
+    category_text = models.CharField(max_length=25, unique=True)
+
+    def __str__(self):
+        return f"{self.category_text}"
+
 class Listings(models.Model):
     object_id = models.AutoField(primary_key=True)
     object_name = models.CharField(max_length=64)
@@ -9,6 +16,7 @@ class Listings(models.Model):
     picture_URL = models.URLField()
     object_lister = models.ForeignKey("User", on_delete=models.CASCADE)
     listing_open = models.BooleanField(default=True)
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     
     def __str__(self):
         return f"{self.object_name}"

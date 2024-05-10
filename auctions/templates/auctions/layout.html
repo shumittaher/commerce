@@ -29,6 +29,10 @@
                 <a class="nav-link" href="{% url 'create_listing' %}">Create New Listing</a>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'watchlisted' %}">Watchlisted</a>
+            </li>
+
             {% if user.is_authenticated %}
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
